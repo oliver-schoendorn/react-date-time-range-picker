@@ -1,0 +1,39 @@
+$baseClassName: '.date-time-range-picker';
+$calendarMargin: 15px;
+
+// border radius of the overlay
+$borderRadius: 5px;
+
+$tableCellSize: 30px;
+
+$outerBorderColor: #ccc !default;
+$arrowButtonHoverBackgroundColor: #dddddd !default;
+
+$defaultTextColor: #000 !default;
+
+$currentDateTextColor: $defaultTextColor !default;
+$currentDateBackgroundColor: #ffdcc6 !default;
+
+$disabledDateTextColor: #b4b4b4 !default;
+
+$selectionTextColor: #000 !default;
+$selectionBackgroundColor: #dcf1ff !default;
+
+$selectionCapTextColor: #fff !default;
+$selectionCapBackgroundColor: #478ac3 !default;
+
+$selectionCapDisabledTextColor: $selectionCapTextColor !default;
+$selectionCapDisabledBackgroundColor: #a2a2a2 !default;
+
+// Range label colors
+// -> Default
+$rangeLabelTextColor: #000 !default;
+$rangeLabelBackgroundColor: inherit !default;
+
+// -> Hovered
+$rangeHLabelHoverTextColor: #000 !default;
+$rangeLabelHoverBackgroundColor: $arrowButtonHoverBackgroundColor !default;
+
+// -> Selected
+$rangeLabelSelectedTextColor: #fff !default;
+$rangeLabelSelectedBackgroundColor: $selectionCapBackgroundColor !default;

@@ -1,0 +1,34 @@
+{
+  "presets": [
+    "@babel/react",
+    "@babel/typescript"
+  ],
+  "plugins": [
+    "@babel/plugin-transform-modules-commonjs",
+    [
+      "@babel/plugin-proposal-class-properties",
+      {
+        "loose": false
+      }
+    ]
+  ],
+  "env": {
+    "production": {
+      "presets": [
+        [
+          "minify",
+          {
+            "builtIns": true,
+            "removeConsole": true,
+            "removeDebugger": true
+          }
+        ]
+      ]
+    },
+    "test": {
+      "sourceMaps": "inline",
+      "compact": false,
+      "comments": true
+    }
+  }
+}

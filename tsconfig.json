@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "baseUrl": "./src",
+    "outDir": "./dist",
+    "moduleResolution": "node",
+    "module": "commonjs",
+    "noEmit": false,
+    "inlineSourceMap": false,
+    "inlineSources": false,
+    "declaration": true,
+    "emitDeclarationOnly": true,
+    "jsx": "react",
+    "allowSyntheticDefaultImports": true
+  },
+  "include": [ "./src/**/*" ],
+  "exclude": [ "**/*.spec.ts"]
+}

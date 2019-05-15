@@ -1,0 +1,337 @@
+@import 'Variables';
+
+.date-time-range-picker {
+    #{$baseClassName}-overlay {
+        display: none;
+        border-radius: $borderRadius;
+        border: 1px solid $outerBorderColor;
+        background: #fff;
+        text-align: left;
+
+        &.open {
+            display: inline-flex;
+            position: absolute;
+        }
+
+        flex-direction: column;
+
+        // Speech bubble arrow
+        position: relative;
+        &:before, &:after {
+            position: absolute;
+            display: inline-block;
+            border-bottom-color: rgba(0, 0, 0, 0.2);
+            content: '';
+        }
+
+        $arrowSize: 10px;
+        $arrowPos: 25px;
+
+        &:before {
+            border-right: $arrowSize solid transparent;
+            border-left: $arrowSize solid transparent;
+        }
+
+        &:after {
+            border-right: #{$arrowSize - 1px} solid transparent;
+            border-left: #{$arrowSize - 1px} solid transparent;
+        }
+
+        &.down {
+            &:before {
+                top: -$arrowSize;
+                border-bottom: $arrowSize solid #ccc;
+            }
+            &:after {
+                top: -#{$arrowSize - 1px};
+                border-bottom: #{$arrowSize - 1px} solid #fff;
+            }
+        }
+
+        &.up {
+            &:before {
+                bottom: -$arrowSize;
+                border-top: $arrowSize solid #ccc;
+            }
+            &:after {
+                bottom: -#{$arrowSize - 1px};
+                border-top: #{$arrowSize - 1px} solid #fff;
+            }
+        }
+
+        &.right {
+            &:before { left: $arrowPos; }
+            &:after { left: #{$arrowPos + 1px}; }
+        }
+
+        &.center {
+            &:before {
+                left: 0;
+                right: 0;
+                width: 0;
+                margin-left: auto;
+                margin-right: auto;
+            }
+            &:after {
+                left: 0;
+                right: 0;
+                width: 0;
+                margin-left: auto;
+                margin-right: auto;
+            }
+        }
+
+        &.left {
+            &:before { right: $arrowPos; }
+            &:after { right: #{$arrowPos + 1px}; }
+        }
+    }
+
+    #{$baseClassName}-cols {
+        display: flex;
+        flex-direction: row;
+
+        #{$baseClassName}-col-spacer {
+            margin-left: $calendarMargin;
+        }
+    }
+
+    #{$baseClassName}-ranges {
+        width: 200px;
+        border-right: 1px solid $outerBorderColor;
+        font-size: 14px;
+        padding-top: 7px;
+
+        .range {
+            display: block;
+            padding: 7px 12px;
+            text-decoration: none;
+            color: $rangeLabelTextColor;
+            background-color: $rangeLabelBackgroundColor;
+
+            &:hover {
+                color: $rangeHLabelHoverTextColor;
+                background-color: $rangeLabelHoverBackgroundColor;
+            }
+
+            &.selected {
+                color: $rangeLabelSelectedTextColor;
+                background-color: $rangeLabelSelectedBackgroundColor;
+            }
+        }
+    }
+
+    #{$baseClassName}-footer {
+        flex-direction: row;
+        border-top: 1px solid $outerBorderColor;
+    }
+
+    #{$baseClassName}-calendar {
+        margin: 10px;
+        flex: 1 0 0;
+        font-size: 12px;
+
+        .month-label {
+            padding-bottom: 10px;
+            text-align: center;
+            font-weight: bold;
+            line-height: 26px;
+            margin: 0 32px;
+
+            .arrow {
+                display: inline-block;
+                border-radius: $borderRadius;
+                width: 26px;
+                height: 26px;
+                text-align: center;
+
+                & > span {
+                    border: solid black;
+                    border-width: 0 2px 2px 0;
+                    display: inline-block;
+                    padding: 3px;
+                }
+
+                &.left {
+                    float: left;
+                    padding-left: 3px;
+                    & > span {
+                        transform: rotate(135deg);
+                        -webkit-transform: rotate(135deg);
+                    }
+                }
+
+                &.right {
+                    float: right;
+                    padding-right: 3px;
+                    & > span {
+                        transform: rotate(-45deg);
+                        -webkit-transform: rotate(-45deg);
+                    }
+                }
+
+                &:hover {
+                    background: $arrowButtonHoverBackgroundColor;
+                }
+            }
+        }
+
+        &.right .month-label {
+            margin-right: 0;
+        }
+
+        &.left .month-label {
+            margin-left: 0;
+        }
+
+        .time-pickers {
+            display: flex;
+            flex-direction: row;
+            text-align: center;
+            margin-top: 10px;
+
+            .time-picker-separator {
+                flex: 0 0 auto;
+                padding: 0 8px;
+            }
+
+            .time-select-separator {
+                padding: 0 3px;
+            }
+        }
+    }
+
+    #{$baseClassName}-time-picker {
+        flex: 1 0 auto;
+    }
+
+    // The actual table
+    &-month {
+        margin: 0;
+        padding: 0;
+
+        td, th, thead th {
+            padding: 0 !important;
+            margin: 0 !important;
+            border: none !important;
+            width: $tableCellSize;
+            height: $tableCellSize;
+            line-height: $tableCellSize;
+            display: table-cell;
+            text-align: center;
+        }
+
+        thead th {
+            padding-bottom: 6px;
+        }
+
+        tr:hover {
+            background: inherit;
+        }
+    }
+
+    // week day names and week number
+    #{$baseClassName}-week-day, #{$baseClassName}-week-day-label {
+        width: $tableCellSize;
+        height: $tableCellSize;
+        border-radius: $tableCellSize;
+        text-align: center;
+        cursor: default;
+    }
+
+    #{$baseClassName}-week-day-label {
+        &.week-number {
+            color: $disabledDateTextColor;
+        }
+    }
+
+    // actual week day
+    #{$baseClassName}-week-day {
+        margin-bottom: 4px;
+
+        .inner {
+            color: $defaultTextColor;
+            border-radius: $tableCellSize;
+        }
+
+        &.selectable .inner {
+            cursor: pointer;
+        }
+
+        // Date equals the current date
+        &.today:not(.disabled) .inner {
+            color: $currentDateTextColor;
+            background: $currentDateBackgroundColor;
+        }
+
+        &.hover {
+            background: #e4e4e4;
+        }
+
+        // Date is neither disabled nor selectable (ie. does not meet selection constraints)
+        &:not(.selectable) .inner {
+            color: $disabledDateTextColor;
+            cursor: not-allowed;
+        }
+
+        // Week day does not belong to the displayed month
+        &.disabled .inner {
+            cursor: default;
+            display: none;
+        }
+
+        &.selection, &.selection-start, &.selection-end {
+            .inner {
+                color: $selectionTextColor;
+            }
+
+            background-color: $selectionBackgroundColor;
+            border-radius: 0;
+        }
+
+        &.selection-start {
+            border-top-left-radius: $tableCellSize;
+            border-bottom-left-radius: $tableCellSize;
+
+            .inner {
+                color: $selectionCapTextColor;
+                background-color: $selectionCapBackgroundColor;
+            }
+
+            &:not(.selectable) .inner {
+                color: $selectionCapDisabledTextColor;
+                background-color: $selectionCapDisabledBackgroundColor;
+            }
+        }
+
+        &.selection-end  {
+            border-top-right-radius: $tableCellSize;
+            border-bottom-right-radius: $tableCellSize;
+
+            .inner {
+                color: $selectionCapTextColor;
+                background-color: $selectionCapBackgroundColor;
+            }
+
+            &:not(.selectable) .inner {
+                color: $selectionCapDisabledTextColor;
+                background-color: $selectionCapDisabledBackgroundColor;
+            }
+        }
+    }
+
+    // bootstrap table
+    .table {
+        margin: 0;
+        padding: 0;
+        width: auto;
+        max-width: 100%;
+        border: 0;
+        border-collapse: collapse;
+        border-spacing: 0;
+
+        th, td {
+            vertical-align: top;
+        }
+    }
+}

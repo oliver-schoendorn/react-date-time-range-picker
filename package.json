@@ -1,0 +1,94 @@
+{
+  "name": "@oliver-schoedorn/react-date-time-range-picker",
+  "version": "1.0.0",
+  "description": "",
+  "keywords": [
+    "react",
+    "typescript",
+    "date",
+    "time",
+    "range",
+    "picker",
+    "vanilla"
+  ],
+  "main": "index.js",
+  "types": "dist/index.d.ts",
+  "dependencies": {},
+  "devDependencies": {
+    "@babel/cli": "^7.4.4",
+    "@babel/core": "^7.4.4",
+    "@babel/plugin-proposal-class-properties": "^7.4.4",
+    "@babel/plugin-transform-modules-commonjs": "^7.4.4",
+    "@babel/preset-react": "^7.0.0",
+    "@babel/preset-typescript": "^7.3.3",
+    "@types/deep-equal": "^1.0.1",
+    "@types/jest": "^24.0.12",
+    "@types/node": "^11.13.8",
+    "@types/react": "^16.8.15",
+    "@types/react-dom": "^16.8.4",
+    "@types/react-intl": "^2.3.17",
+    "@types/shallowequal": "^1.1.1",
+    "babel-jest": "^24.7.1",
+    "babel-loader": "^8.0.5",
+    "babel-preset-minify": "^0.5.0",
+    "css-loader": "^2.1.1",
+    "cssnano": "^4.1.10",
+    "deep-equal": "^1.0.1",
+    "immutability-helper": "^3.0.0",
+    "jest": "^24.7.1",
+    "mini-css-extract-plugin": "^0.6.0",
+    "moment": "^2.24.0",
+    "node-sass": "^4.12.0",
+    "postcss-flexbugs-fixes": "^4.1.0",
+    "postcss-loader": "^3.0.0",
+    "postcss-preset-env": "^6.6.0",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
+    "react-hot-loader": "^4.8.4",
+    "react-intl": "^2.8.0",
+    "resolve-url-loader": "^3.1.0",
+    "rimraf": "^2.6.3",
+    "sass-loader": "^7.1.0",
+    "shallowequal": "^1.1.0",
+    "source-map-loader": "^0.2.4",
+    "style-loader": "^0.23.1",
+    "tslint": "^5.16.0",
+    "tslint-react": "^4.0.0",
+    "typescript": "^3.4.5",
+    "webpack": "^4.30.0",
+    "webpack-bundle-analyzer": "^3.3.2",
+    "webpack-cli": "^3.3.1",
+    "webpack-dev-server": "^3.3.1"
+  },
+  "peerDependencies": {
+    "react": "^16.8.6"
+  },
+  "scripts": {
+    "test": "jest --coverage",
+    "start": "webpack-dev-server --hot --colors --config ./webpack.development.config.js",
+    "clear": "rimraf ./dist/*",
+    "build:types": "tsc",
+    "build:babel": "babel ./src -d ./dist --extensions \".ts\" --extensions \".tsx\" --ignore '**/*.spec.ts' --source-maps inline",
+    "build:bundle": "webpack --config webpack.production.config.js --json > dist/stats.json && webpack-bundle-analyzer ./dist/stats.json -O -m static -r ./dist/stats.html",
+    "build:styles": "cp ./src/Styles/DateTimeRangePicker.scss ./dist/DateTimeRangePicker.scss",
+    "build": "npm run clear && npm run build:babel && npm run build:bundle && npm run build:types && npm run build:styles"
+  },
+  "author": "Oliver Schöndorn <info@oswebstyle.de>",
+  "license": "MIT",
+  "jest": {
+    "moduleFileExtensions": [
+      "ts",
+      "js",
+      "json"
+    ],
+    "testRegex": "(/src/.*\\.spec)\\.ts$",
+    "transform": {
+      "^.+\\.tsx?$": "babel-jest"
+    },
+    "coverageDirectory": "./coverage",
+    "collectCoverageFrom": [
+      "./src/**/*",
+      "!**/node_modules/**"
+    ]
+  }
+}
