@@ -1,7 +1,7 @@
 {
   "name": "@oliver-schoedorn/react-date-time-range-picker",
-  "version": "1.0.0",
-  "description": "",
+  "version": "0.0.1",
+  "description": "Date time range picker for React written in Typescript with internationalization in mind.",
   "keywords": [
     "react",
     "typescript",
@@ -9,7 +9,14 @@
     "time",
     "range",
     "picker",
-    "vanilla"
+    "i18n",
+    "internationalization"
+  ],
+  "repository": "github:oliver-schoendorn/react-date-time-range-picker",
+  "files": [
+    "dist/*",
+    "index.js",
+    "LICENSE"
   ],
   "main": "index.js",
   "types": "dist/index.d.ts",
@@ -71,7 +78,8 @@
     "build:babel": "babel ./src -d ./dist --extensions \".ts\" --extensions \".tsx\" --ignore '**/*.spec.ts' --source-maps inline",
     "build:bundle": "webpack --config webpack.production.config.js --json > dist/stats.json && webpack-bundle-analyzer ./dist/stats.json -O -m static -r ./dist/stats.html",
     "build:styles": "cp ./src/Styles/DateTimeRangePicker.scss ./dist/DateTimeRangePicker.scss",
-    "build": "npm run clear && npm run build:babel && npm run build:bundle && npm run build:types && npm run build:styles"
+    "build": "npm run clear && npm run build:babel && npm run build:bundle && npm run build:types && npm run build:styles",
+    "prepublishOnly": "npm run test && npm run build"
   },
   "author": "Oliver Schöndorn <info@oswebstyle.de>",
   "license": "MIT",
