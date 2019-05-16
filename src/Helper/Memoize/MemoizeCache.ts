@@ -18,11 +18,6 @@ export class MemoizeCache<T = any, Key = any[]>
     public get(key: Key): T | undefined
     {
         const result = [ ...this.store ].reverse().find(value => {
-            // console.log('Comparing', {
-            //     expected: key,
-            //     actual: value[0],
-            //     equals: this.comparator(value[0], key)
-            // })
             return this.comparator(value[0], key)
         })
 

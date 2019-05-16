@@ -31,8 +31,6 @@ describe('Memoize', function () {
                 endDate?: Date
             ): null | [ Date, Date ]
             {
-                console.count('getCurrentSelectionFromContext')
-
                 if (! startDate || ! endDate) {
                     return null
                 }

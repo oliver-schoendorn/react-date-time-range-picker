@@ -6,8 +6,6 @@ const getCurrentSelectionFromContext = memoizeFunction(function(
     endDate?: Date
 ): [ null, null ] | [ Date, Date ]
 {
-    console.count('getCurrentSelectionFromContext')
-
     if (! startDate || ! endDate) {
         return [ null, null ]
     }

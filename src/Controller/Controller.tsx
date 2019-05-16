@@ -86,7 +86,6 @@ export abstract class BaseController<P extends BaseControllerProps = BaseControl
 
     protected cancel = (): Promise<S> =>
     {
-        console.warn('cancel')
         return this.updateState(({ prevStart, prevEnd }) => ({
             start: { $set: prevStart },
             end: { $set: prevEnd },
@@ -96,7 +95,6 @@ export abstract class BaseController<P extends BaseControllerProps = BaseControl
 
     protected apply = (): Promise<S> =>
     {
-        console.warn('apply')
         return this.updateState(({ start, end }) => ({
             prevStart: { $set: start },
             prevEnd: { $set: end },

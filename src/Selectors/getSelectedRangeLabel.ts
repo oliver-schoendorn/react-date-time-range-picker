@@ -8,8 +8,6 @@ const getSelectedRangeLabel = memoizeFunction(function getSelectedRangeLabel(
     ranges: Context['options']['ranges']
 ): string | 'custom' | null
 {
-    console.count('getSelectedRangeLabel')
-
     if (! isDate(startDate, endDate) || ! ranges) {
         return null
     }
