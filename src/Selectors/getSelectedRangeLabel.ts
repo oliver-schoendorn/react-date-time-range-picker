@@ -10,7 +10,7 @@ const getSelectedRangeLabel = memoizeFunction(function getSelectedRangeLabel(
 {
     console.count('getSelectedRangeLabel')
 
-    if (! isDate(startDate, endDate)) {
+    if (! isDate(startDate, endDate) || ! ranges) {
         return null
     }
 
