@@ -35,7 +35,10 @@
     "test": {
       "sourceMaps": "inline",
       "compact": false,
-      "comments": true
+      "comments": true,
+      "plugins": [
+        "@babel/transform-modules-commonjs"
+      ]
     }
   }
 }

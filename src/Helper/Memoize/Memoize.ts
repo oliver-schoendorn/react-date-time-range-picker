@@ -42,8 +42,7 @@ export function memoizeResponse<T extends AnyFunction>(fn: T, options?: MemoizeO
 {
     const opts = Object.assign({
         memoizer: deepEqual,
-        cacheSize: 1,
-        logger: () => void 0
+        cacheSize: 1
     }, options || {})
 
     const cache = new MemoizeCache(opts.cacheSize, opts.memoizer)
