@@ -1,6 +1,6 @@
 {
   "name": "@oliver-schoendorn/react-date-time-range-picker",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Date time range picker for React written in Typescript with internationalization in mind.",
   "keywords": [
     "react",
@@ -16,16 +16,22 @@
   "files": [
     "dist/*",
     "index.js",
-    "LICENSE"
+    "LICENSE",
+    "README.md"
   ],
   "main": "index.js",
   "types": "dist/index.d.ts",
-  "dependencies": {},
+  "module": "dist/es/index.js",
+  "dependencies": {
+    "@babel/runtime": "^7.4.4"
+  },
   "devDependencies": {
     "@babel/cli": "^7.4.4",
     "@babel/core": "^7.4.4",
     "@babel/plugin-proposal-class-properties": "^7.4.4",
     "@babel/plugin-transform-modules-commonjs": "^7.4.4",
+    "@babel/plugin-transform-runtime": "^7.4.4",
+    "@babel/preset-env": "^7.4.4",
     "@babel/preset-react": "^7.0.0",
     "@babel/preset-typescript": "^7.3.3",
     "@types/deep-equal": "^1.0.1",
@@ -73,12 +79,13 @@
   "scripts": {
     "test": "jest --coverage",
     "start": "webpack-dev-server --hot --colors --config ./webpack.development.config.js",
-    "clear": "rimraf ./dist/*",
+    "clear": "rimraf ./dist/cjs/* && rimraf ./dist/esm/*",
     "build:types": "tsc",
-    "build:babel": "babel ./src -d ./dist --extensions \".ts\" --extensions \".tsx\" --ignore '**/*.spec.ts' --source-maps inline",
-    "build:bundle": "webpack --config webpack.production.config.js --json > dist/stats.json && webpack-bundle-analyzer ./dist/stats.json -O -m static -r ./dist/stats.html",
-    "build:styles": "cp ./src/Styles/DateTimeRangePicker.scss ./dist/DateTimeRangePicker.scss",
-    "build": "npm run clear && npm run build:babel && npm run build:bundle && npm run build:types && npm run build:styles",
+    "build:styles": "cp -R ./src/Styles ./dist/esm",
+    "build:bundle": "webpack --config webpack.bundle.config.js",
+    "build:bundle:min": "webpack --config webpack.production.config.js --json > ./dist/cjs/stats.json",
+    "build:analyze": "webpack-bundle-analyzer ./dist/cjs/stats.json -O -m static -r ./dist/cjs/stats.html",
+    "build": "npm run clear && npm run build:types && npm run build:styles && npm run build:bundle && npm run build:bundle:min && npm run build:analyze",
     "prepublishOnly": "npm run test && npm run build"
   },
   "author": "Oliver Schöndorn <info@oswebstyle.de>",

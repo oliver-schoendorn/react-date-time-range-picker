@@ -15,7 +15,7 @@ module.exports = {
                 }],
             },
             {
-                test: /\.js$/,
+                test: /\.map$/,
                 use: [ 'source-map-loader' ],
                 enforce: 'pre'
             },
@@ -41,7 +41,7 @@ module.exports = {
         ]
     },
     plugins: [
-        new MiniCssExtractPlugin({ filename: 'date-time-range-picker.production.min.css' })
+        new MiniCssExtractPlugin({ filename: 'date-time-range-picker.min.css' })
     ],
     resolve: {
         extensions: ['.js', '.jsx', '.ts', '.tsx'],

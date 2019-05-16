@@ -2,7 +2,7 @@
 
 This is a date time range picker for React written in Typescript with internationalization in mind.
 This package does not use any libraries for date time calculations, DOM manipulations or styling. The
-compressed size of the javascript bundle is approximately 39KB (9.3KB gzipped).
+compressed size of the javascript bundle is approximately 31KB (9.1KB gzipped).
 
 This is heavily inspired by the
 [Date Range Picker by Dan Grossman](https://github.com/dangrossman/daterangepicker). 
@@ -112,14 +112,14 @@ export class Picker extends PureComponent<{}, State>
 ### Importing Stylesheets
 
 If your project is using webpacks style-loader or similar, the simplest way to include the styles is to
-`import '@oliver-schoendorn/react-date-time-range-picker/dist/date-time-range-picker.production.min.css'`.
+`import '@oliver-schoendorn/react-date-time-range-picker/dist/cjs/date-time-range-picker.min.css'`.
 
-Alternatively you could copy the `date-time-range-picker.production.min.css` file to your public folder and include it
+Alternatively you could copy the `date-time-range-picker.min.css` file to your public folder and include it
 in your header or where ever you would like to.
 
 In case you are using SASS, you could also
-`@import '~@oliver-schoendorn/react-date-time-range-picker/dist/DateTimeRangePicker.scss` the styles. This way you can
-overwrite a few [variables](./src/Styles/_Variables.scss) as well.
+`@import '~@oliver-schoendorn/react-date-time-range-picker/dist/esm/Styles/DateTimeRangePicker.scss` the styles.
+This way you can overwrite a few [variables](./src/Styles/_Variables.scss) as well.
 
 ## Advanced usage (controlled)
 

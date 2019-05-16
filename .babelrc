@@ -4,7 +4,6 @@
     "@babel/typescript"
   ],
   "plugins": [
-    "@babel/plugin-transform-modules-commonjs",
     [
       "@babel/plugin-proposal-class-properties",
       {
@@ -13,16 +12,24 @@
     ]
   ],
   "env": {
-    "production": {
+    "esm": {
+      "sourceMaps": "inline",
+      "compact": false,
+      "comments": true,
       "presets": [
-        [
-          "minify",
-          {
-            "builtIns": true,
-            "removeConsole": true,
-            "removeDebugger": true
+        [ "@babel/env", {
+          "loose": true,
+          "shippedProposals": true,
+          "modules": false,
+          "targets": {
+            "ie": 9
           }
-        ]
+        }],
+        "@babel/react",
+        "@babel/typescript"
+      ],
+      "plugins": [
+        [ "@babel/transform-runtime", { "useESModules": true } ]
       ]
     },
     "test": {
