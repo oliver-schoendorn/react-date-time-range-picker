@@ -19,7 +19,10 @@ module.exports = Object.assign(BaseConfig, {
         port: '8090',
         hot: true,
         historyApiFallback: true,
-        contentBase: path.join(__dirname, '/dev')
+        contentBase: path.join(__dirname, '/dev'),
+        stats: {
+            warnings: false
+        }
     },
     entry: [ 'react-hot-loader/patch', path.join(__dirname, '/dev/index.tsx') ],
     devtool: 'eval-source-map',
@@ -28,5 +31,5 @@ module.exports = Object.assign(BaseConfig, {
         ...BaseConfig.plugins,
         bundleAnalyzerPlugin
     ],
-    output: { filename: '_index.md.js' }
+    output: { filename: 'index.js' }
 })
