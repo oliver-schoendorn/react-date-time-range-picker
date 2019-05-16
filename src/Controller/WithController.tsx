@@ -16,34 +16,29 @@ const withController: Controller<Props> = (DateRangePicker) => class WithRangeCo
             setMonth: this.setMonth,
             hoverDate: this.hoverDate,
             leaveDate: this.leaveDate,
-            clickDate: this.clickDate,
-            selectDate: this.selectDate
+            clickDate: this.selectDate,
+            selectDate: this.selectDate,
+            cancel: this.cancel,
+            apply: () => this.apply().then(({ start }) => this.props.onChange(start))
         }
     }
 
     private selectDate = (startDate: Date): void =>
     {
-        this.updateState(() => ({
+        this.updateState(({ start, end }) => ({
             start: { $set: startDate },
-            end: { $set: startDate }
-        })).then(state => this.props.onChange(state.start))
+            end: { $set: startDate },
+            prevStart: { $set: start },
+            prevEnd: { $set: end }
+        })).then(this.onUpdateDate)
     }
 
-    private clickDate = (date: Date): void =>
+    private onUpdateDate = () =>
     {
-        this.updateState(({ start }) => {
-            if (start && start === date) {
-                return {
-                    start: { $set: null },
-                    end: { $set: null },
-                }
-            }
-
-            return {
-                start: { $set: date },
-                end: { $set: date }
-            }
-        }).then(state => this.props.onChange(state.start))
+        const { options } = this.props
+        if (options.autoApply && ! options.showTimePicker) {
+            this.actions.apply()
+        }
     }
 }
 

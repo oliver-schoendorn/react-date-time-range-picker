@@ -8,7 +8,7 @@ interface ContextProps
     overlayClassName: string
     position: [ 'left' | 'center' | 'right', 'up' | 'down' ]
     relativeRef?: RefObject<HTMLElement>
-    toggle(): void
+    cancel(): void
 }
 
 function hasRef<T extends HTMLElement>(ref: RefObject<T> | undefined): ref is RefObject<T>
@@ -42,14 +42,8 @@ class OverlayComponent extends PureComponent<ContextProps>
             return
         }
 
-        console.warn('onClickDocument', {
-            target: event.target,
-            ref: this.selfRef.current,
-            contains: this.selfRef.current.contains(event.target as Node)
-        })
-
         if (! this.selfRef.current.contains(event.target as Node)) {
-            this.props.toggle()
+            this.props.cancel()
         }
     }
 
@@ -110,7 +104,7 @@ const Overlay = withContext<ContextProps>(() => {
         overlayClassName: options.classNames.overlay,
         position: options.position,
         relativeRef,
-        toggle: actions.toggle
+        cancel: actions.cancel
     })
 })(OverlayComponent)
 

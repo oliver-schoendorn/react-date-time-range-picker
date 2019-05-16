@@ -121,11 +121,6 @@
         }
     }
 
-    #{$baseClassName}-footer {
-        flex-direction: row;
-        border-top: 1px solid $outerBorderColor;
-    }
-
     #{$baseClassName}-calendar {
         margin: 10px;
         flex: 1 0 0;
@@ -316,6 +311,29 @@
             &:not(.selectable) .inner {
                 color: $selectionCapDisabledTextColor;
                 background-color: $selectionCapDisabledBackgroundColor;
+            }
+        }
+    }
+
+    #{$baseClassName}-footer {
+        flex-direction: row;
+        border-top: 1px solid $outerBorderColor;
+        display: flex;
+        font-size: 14px;
+
+        .selection {
+            text-align: right;
+            align-self: center;
+            flex: 1 0 auto;
+            margin-right: 5px;
+        }
+
+        .buttons {
+            margin: 5px;
+            flex: 0 0 auto;
+
+            button {
+                margin: 0 5px;
             }
         }
     }

@@ -46,6 +46,7 @@ export interface Options
 
     /**
      * Automatically apply changed date, if an start and end date have been selected
+     * NOTE: If Options.showTimePicker is set to true, this option will be ignored
      */
     autoApply?: boolean
 

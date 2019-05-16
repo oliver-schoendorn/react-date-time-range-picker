@@ -12,14 +12,14 @@ const options: Options = {
         firstDayOfWeek: 0,
         timePicker24Hours: true
     },
-    showTimePicker: true,
     showWeekNumber: true,
     constraints: {
         minSpan: 1000 * 60 * 60 * 24 * 3,
         maxSpan: 1000 * 60 * 60 * 24 * 15,
         maxDate: new Date('2019-06-01'),
         minDate: new Date('2019-01-01')
-    }
+    },
+    position: [ 'center', 'down' ]
 }
 
 const options2: Options = {
@@ -29,7 +29,6 @@ const options2: Options = {
     },
     showSingleCalendar: false,
     showWeekNumber: false,
-    showTimePicker: true,
     constraints: {
         minSpan: 1000 * 60 * 60 * 24 * 3,
         maxSpan: 1000 * 60 * 60 * 24 * 15,
@@ -51,24 +50,37 @@ const options3 = Object.assign({}, options2, { showTimePicker: false })
 const RangePicker = withRangeController(DateTimeRangePickerControlled)
 const DatePicker  = withController(DateTimeRangePickerControlled)
 
+const withAutoApply = (options: Options): Options => Object.assign({}, options, { autoApply: true })
+const withTimePicker = (options: Options): Options => Object.assign({}, options, { showTimePicker: true })
+
+const onChange = (start: Date, end?: Date) =>
+{
+    console.warn('onChange', { start, end })
+}
+
 const App: FunctionComponent = () => (
-    <div style={ { marginTop: 500, textAlign: 'center' } }>
+    <div style={ { textAlign: 'center' } }>
 
-        {/*<button ref={ ref1 } onClick={ () => console.warn(ref1) }>select date</button>*/}
-        {/*<DateTimeRangePicker options={ options2 } refObject={ ref1 }/>*/}
+        <RangePicker options={ options } onChange={ onChange }>
+            <button>RangePicker (w/o apply, w/o time)</button>
+        </RangePicker>
 
-        <RangePicker
-            // initialState={ { month: new Date('2018-02-01') } }
-            options={ options }
-            onChange={ (start, end) => console.log('onChangeRange', start, end) }
-        >
-            <button>RangePicker</button>
+        <RangePicker options={ withAutoApply(options) } onChange={ onChange }>
+            <button>RangePicker (w/ apply, w/o time)</button>
+        </RangePicker>
+
+        <RangePicker options={ withTimePicker(withAutoApply(options)) } onChange={ onChange }>
+            <button>RangePicker (w/ apply, w/ time)</button>
         </RangePicker>
 
         <hr/>
 
-        <DatePicker onChange={ date => console.log('onChangeDate', date) } options={ options3 }>
-            <button>DatePicker</button>
+        <DatePicker options={ options3 } onChange={ onChange }>
+            <button>DatePicker (without auto apply)</button>
+        </DatePicker>
+
+        <DatePicker options={ withAutoApply(options3) } onChange={ onChange }>
+            <button>DatePicker (with auto apply)</button>
         </DatePicker>
     </div>
 )

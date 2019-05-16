@@ -47,7 +47,9 @@ const getTimeSelectOptions = memoizeFunction((timeInterval: number, timeFormat: 
 
 const renderOptions = (values: number[]): ReactNode[] =>
 {
-    return values.map(value => <option key={ value } value={ value }>{ value.toString().padStart(2, '0') }</option>)
+    return values.map(value => (
+        <option key={ value } value={ value }>{ value.toString().padStart(2, '0') }</option>
+    ))
 }
 
 class TimeSelectComponent extends PureComponent<ExternalProps & ContextProps>
@@ -141,42 +143,6 @@ class TimeSelectComponent extends PureComponent<ExternalProps & ContextProps>
             </div>
         )
     }
-}
-
-const TimeSelectComponent2: FunctionComponent<ExternalProps & ContextProps> = (props) =>
-{
-    const [ hours, minutes, seconds ] = getTimeSelectOptions(props.timeInterval, props.format)
-
-    const selects: ReactNode[] = [
-        <select key='hours' disabled={ ! props.time }>
-            { hours.map(hour => <option key={ hour } value={ hour }>{ hour }</option>) }
-        </select>
-    ]
-
-    if (minutes.length > 1) {
-        selects.push(<span key='minutes-separator' className='time-select-separator'>:</span>)
-        selects.push(<select key='minutes' disabled={ ! props.time }>{ renderOptions(minutes) }</select>)
-    }
-
-    if (seconds.length > 1) {
-        selects.push(<span key='seconds-separator' className='time-select-separator'>:</span>)
-        selects.push(<select key='seconds' disabled={ ! props.time }>{ renderOptions(seconds) }</select>)
-    }
-
-    if (props.format === 12) {
-        selects.push(
-            <select key='am-pm' defaultValue='am' disabled={ ! props.time }>
-                <option value='am'>AM</option>
-                <option value='pm'>PM</option>
-            </select>
-        )
-    }
-
-    return (
-        <div className={ classNames('-time-picker') }>
-            { selects }
-        </div>
-    )
 }
 
 const TimeSelect = withContext<ContextProps, ExternalProps>(({ options }) => ({

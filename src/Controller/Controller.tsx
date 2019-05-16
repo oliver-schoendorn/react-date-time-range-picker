@@ -22,6 +22,8 @@ function getInitialState({ month, ...state }: Partial<ContextState> = {}): Conte
     return Object.assign({
         month: DateTime.getFirstDayOfMonth(month || new Date()),
         start: null,
+        prevStart: null,
+        prevEnd: null,
         end: null,
         open: false,
         hovered: null
@@ -80,6 +82,26 @@ export abstract class BaseController<P extends BaseControllerProps = BaseControl
                 }
             } as Spec<S>
         })
+    }
+
+    protected cancel = (): Promise<S> =>
+    {
+        console.warn('cancel')
+        return this.updateState(({ prevStart, prevEnd }) => ({
+            start: { $set: prevStart },
+            end: { $set: prevEnd },
+            open: { $set: false }
+        }))
+    }
+
+    protected apply = (): Promise<S> =>
+    {
+        console.warn('apply')
+        return this.updateState(({ start, end }) => ({
+            prevStart: { $set: start },
+            prevEnd: { $set: end },
+            open: { $set: false }
+        }))
     }
 
     public render(): ReactNode

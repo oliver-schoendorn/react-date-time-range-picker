@@ -1,4 +1,4 @@
-import React, { PureComponent, ReactNode, Fragment, RefObject, createRef } from 'react'
+import React, { PureComponent, ReactNode, Fragment, RefObject, createRef, MouseEvent } from 'react'
 import { Calendar } from './Calendar/Calendar'
 import { Overlay } from './Overlay'
 import { Ranges } from './Range/Ranges'
@@ -49,6 +49,18 @@ class DateTimeRangePickerControlled extends PureComponent<Props>
         this.props.actions.toggle()
     }
 
+    private onApply = (event: MouseEvent<HTMLButtonElement>) =>
+    {
+        event.preventDefault()
+        this.props.actions.apply()
+    }
+
+    private onCancel = (event: MouseEvent<HTMLButtonElement>) =>
+    {
+        event.preventDefault()
+        this.props.actions.cancel()
+    }
+
     public render(): ReactNode
     {
         const context = this.memoizedContext(
@@ -93,11 +105,11 @@ class DateTimeRangePickerControlled extends PureComponent<Props>
                                 </div>
 
                                 <div className='buttons'>
-                                    <button className={ cancelBtnClassNames }>
+                                    <button className={ cancelBtnClassNames } onClick={ this.onCancel }>
                                         { context.options.i18n.labels.cancel }
                                     </button>
 
-                                    <button className={ submitBtnClassNames }>
+                                    <button className={ submitBtnClassNames } onClick={ this.onApply }>
                                         { context.options.i18n.labels.apply }
                                     </button>
                                 </div>
