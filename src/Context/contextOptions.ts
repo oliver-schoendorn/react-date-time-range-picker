@@ -1,5 +1,4 @@
 import { getWeekNumber } from '../Helper/DateTime'
-import { memoizeFunction } from '../Helper/Memoize/Memoize'
 
 type TranslateFn = (date: Date) => string
 
@@ -173,30 +172,20 @@ export interface Options
         formatDate?(date: Date): string
 
         /**
-         * Time localization
-         *
-         * Expects a translate function returning the hours / minutes / seconds.
-         * Defaults to a method return the time in the following format: "HH:MM:SS"
-         */
-        formatTime?(time: Date): string
-
-        /**
          * If true, times will be displayed from 0:00 until 23:59; otherwise from 0:00 AM to 11:59 PM
          */
         timePicker24Hours?: boolean
+
+        /**
+         * A string that will be displayed in the footer between two selected dates
+         */
+        resultRangeSeparator?: string
 
         /**
          * Will be called to determine the week number
          * Defaults to a method returning ISO week numbers
          */
         getWeekNumber?(date: Date): number
-
-        /**
-         * Will be called to render the selection result
-         * Defaults to a method returning `${Options.i18n.formatDate(start)} - ${Options.i18n.formatDate(end)}`
-         * @see Options.i18n.formatDate
-         */
-        formatResult?(start?: Date, end?: Date): string
     }
 }
 
@@ -206,57 +195,11 @@ const defaultFormatDate = (date: Date): string =>
     '/' + (date.getUTCMonth() + 1).toString(10).padStart(2, '0') +
     '/' + (date.getUTCDate()).toString(10).padStart(2, '0')
 
-const defaultFormatTime = (time: Date): string =>
-    time.getUTCHours().toString(10).padStart(2, '0') +
-    ':' + time.getUTCMinutes().toString(10).padStart(2, '0') +
-    ':' + time.getUTCSeconds().toString(10).padStart(2, '0')
-
-function formatDateTime(
-    dateTime: Date | null,
-    formatDate: (date: Date) => string,
-    formatTime?: (time: Date) => string
-): string
-{
-    if (! dateTime) {
-        return ''
-    }
-
-    return formatDate(dateTime) + (formatTime ? (' ' + formatTime(dateTime)) : '')
-}
-
-const defaultFormatResult = memoizeFunction(function defaultFormatResult(
-    formatDate: (date: Date) => string,
-    formatTime?: (time: Date) => string
-)
-{
-    return function formatResult(start?: Date, end?: Date): string
-    {
-        if (! start && ! end) {
-            return ''
-        }
-
-        if (start && end && start.valueOf() === end.valueOf()) {
-            return formatDateTime(start, formatDate, formatTime)
-        }
-
-        return formatDateTime(start, formatDate, formatTime) +
-            (end ? (' - ' + formatDateTime(end, formatDate, formatTime)) : '')
-    }
-})
-
 export function makeContextOptions({ constraints, classNames, i18n, ...baseOptions }: Options = {},): Required<Options>
 {
     const formatDate: (date: Date) => string =
         (i18n ? i18n.formatDate : null)
         || defaultFormatDate
-
-    const formatTime: (time: Date) => string =
-        (i18n ? i18n.formatTime : null)
-        || defaultFormatTime
-
-    const formatResult: (start?: Date, end?: Date) => string =
-        (i18n ? i18n.formatResult : null)
-        || defaultFormatResult(formatDate, (baseOptions && baseOptions.showTimePicker) ? formatTime : null)
 
     return Object.assign({
         constraints: Object.assign({
@@ -311,10 +254,9 @@ export function makeContextOptions({ constraints, classNames, i18n, ...baseOptio
                 'December'
             ],
             formatDate,
-            formatTime,
+            resultRangeSeparator: ' - ',
             timePicker24Hours: false,
-            getWeekNumber,
-            formatResult
+            getWeekNumber
         }, i18n || {})
     }, baseOptions || {})
 }

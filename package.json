@@ -78,7 +78,7 @@
   },
   "scripts": {
     "test": "jest --coverage",
-    "start": "webpack-dev-server --hot --colors --config ./webpack.development.config.js",
+    "start": "HMR=true webpack-dev-server --hot --colors --config ./webpack.development.config.js",
     "clear": "rimraf ./dist/cjs/* && rimraf ./dist/esm/*",
     "build:types": "tsc",
     "build:styles": "cp -R ./src/Styles ./dist/esm",

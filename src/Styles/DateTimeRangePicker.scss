@@ -1,5 +1,18 @@
 @import 'Variables';
 
+@mixin mobile {
+    #{$baseClassName}-ranges {
+        border-right: none;
+        border-bottom: 1px solid $outerBorderColor;
+        width: auto;
+    }
+
+    #{$baseClassName}-cols {
+        flex-direction: column;
+    }
+}
+
+
 .date-time-range-picker {
     #{$baseClassName}-overlay {
         display: none;
@@ -90,6 +103,7 @@
     #{$baseClassName}-cols {
         display: flex;
         flex-direction: row;
+        flex-wrap: nowrap;
 
         #{$baseClassName}-col-spacer {
             margin-left: $calendarMargin;
@@ -110,7 +124,7 @@
             background-color: $rangeLabelBackgroundColor;
 
             &:hover {
-                color: $rangeHLabelHoverTextColor;
+                color: $rangeLabelHoverTextColor;
                 background-color: $rangeLabelHoverBackgroundColor;
             }
 
@@ -205,13 +219,12 @@
         margin: 0;
         padding: 0;
 
-        td, th, thead th {
-            padding: 0 !important;
-            margin: 0 !important;
+        td, th {
+            padding: 0;
+            margin: 0;
             border: none !important;
             width: $tableCellSize;
             height: $tableCellSize;
-            line-height: $tableCellSize;
             display: table-cell;
             text-align: center;
         }
@@ -228,10 +241,12 @@
     // week day names and week number
     #{$baseClassName}-week-day, #{$baseClassName}-week-day-label {
         width: $tableCellSize;
+        min-width: $tableCellSize;
         height: $tableCellSize;
         border-radius: $tableCellSize;
         text-align: center;
         cursor: default;
+        line-height: $tableCellSize + 1px;
     }
 
     #{$baseClassName}-week-day-label {
@@ -319,7 +334,7 @@
         flex-direction: row;
         border-top: 1px solid $outerBorderColor;
         display: flex;
-        font-size: 14px;
+        font-size: 13px;
 
         .selection {
             text-align: right;
@@ -333,7 +348,7 @@
             flex: 0 0 auto;
 
             button {
-                margin: 0 5px;
+                margin: 0 3px;
             }
         }
     }
@@ -350,6 +365,17 @@
 
         th, td {
             vertical-align: top;
+        }
+    }
+
+    @media only screen and (max-width: $breakPoint) {
+        @include mobile
+    }
+
+    // Screen width is larger than the calendars but is not large enough for the ranges
+    @media only screen and (max-width: $breakPoint + $rangesWidth) and (min-width: $breakPoint) {
+        &.has-ranges {
+            @include mobile
         }
     }
 }

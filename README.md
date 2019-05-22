@@ -185,6 +185,7 @@ export interface Options
 
     /**
      * Automatically apply changed date, if an start and end date have been selected
+     * NOTE: If Options.showTimePicker is set to true, this option will be ignored
      */
     autoApply?: boolean
 
@@ -311,30 +312,20 @@ export interface Options
         formatDate?(date: Date): string
 
         /**
-         * Time localization
-         *
-         * Expects a translate function returning the hours / minutes / seconds.
-         * Defaults to a method return the time in the following format: "HH:MM:SS"
-         */
-        formatTime?(time: Date): string
-
-        /**
          * If true, times will be displayed from 0:00 until 23:59; otherwise from 0:00 AM to 11:59 PM
          */
         timePicker24Hours?: boolean
+
+        /**
+         * A string that will be displayed in the footer between two selected dates
+         */
+        resultRangeSeparator?: string
 
         /**
          * Will be called to determine the week number
          * Defaults to a method returning ISO week numbers
          */
         getWeekNumber?(date: Date): number
-
-        /**
-         * Will be called to render the selection result
-         * Defaults to a method returning `${Options.i18n.formatDate(start)} - ${Options.i18n.formatDate(end)}`
-         * @see Options.i18n.formatDate
-         */
-        formatResult?(start?: Date, end?: Date): string
     }
 }
 ```

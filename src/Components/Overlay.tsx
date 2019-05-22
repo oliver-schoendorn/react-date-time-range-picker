@@ -1,4 +1,4 @@
-import React, { RefObject, PureComponent, ReactNode, createRef, MouseEvent } from 'react'
+import React, { RefObject, PureComponent, ReactNode, createRef } from 'react'
 import { withContext } from '../Context/withContext'
 import { classNames } from '../Helper/classNames'
 
@@ -29,11 +29,22 @@ class OverlayComponent extends PureComponent<ContextProps>
     public componentWillMount(): void
     {
         document.addEventListener('click', this.onClickDocument)
+        window.addEventListener('resize', this.updatePosition)
+        window.addEventListener('orientationchange', this.updatePosition)
     }
 
     public componentWillUnmount(): void
     {
         document.removeEventListener('click', this.onClickDocument)
+        window.removeEventListener('resize', this.updatePosition)
+        window.removeEventListener('orientationchange', this.updatePosition)
+    }
+
+    public componentDidUpdate(prevProps: Readonly<ContextProps>): void
+    {
+        if (this.props.open !== prevProps.open || this.props.position !== prevProps.position) {
+            this.updatePosition()
+        }
     }
 
     private onClickDocument = (event: Event) =>
@@ -52,12 +63,12 @@ class OverlayComponent extends PureComponent<ContextProps>
         const { open, position, children, overlayClassName } = this.props
         const className = classNames('-overlay', overlayClassName, ...position, { open: open })
 
-        return <div className={ className } ref={ this.selfRef }>{ children }</div>
+        return <div className={ className } ref={ this.selfRef }>{ open && children }</div>
     }
 
-    public componentDidUpdate(prevProps: Readonly<ContextProps>): void
+    private updatePosition = () =>
     {
-        if (this.props.open !== true || prevProps.open === true) {
+        if (! this.props.open) {
             return
         }
 
@@ -66,46 +77,53 @@ class OverlayComponent extends PureComponent<ContextProps>
             return
         }
 
+        console.time('OverlayPosition')
+
         const self = this.selfRef.current
         const selfRect = self.getBoundingClientRect()
 
         const relative = this.props.relativeRef.current
         const relativeRect = relative.getBoundingClientRect()
 
-        switch (this.props.position[1]) {
-            case 'up':
-                self.style.top = (relativeRect.top - selfRect.height - 10) + 'px'
-                break
+        self.style.top  = OverlayComponent.getTopPosition(this.props.position[1], selfRect, relativeRect) + 'px'
+        self.style.left = OverlayComponent.getLeftPosition(this.props.position[0], selfRect, relativeRect) + 'px'
 
-            case 'down':
-                self.style.top = (relativeRect.top + relativeRect.height + 10) + 'px'
-                break
+        console.timeEnd('OverlayPosition')
+    }
+
+    private static getTopPosition(
+        position: ContextProps['position'][1],
+        overlay: ClientRect,
+        relative: ClientRect
+    ): number
+    {
+        switch (position) {
+            case 'up':   return relative.top - overlay.height - 10
+            case 'down': return relative.top + relative.height + 10
         }
+    }
 
-        switch (this.props.position[0]) {
-            case 'left':
-                self.style.left = ((relativeRect.left + relativeRect.width) - selfRect.width) + 'px'
-                break
+    private static getLeftPosition(
+        position: ContextProps['position'][0],
+        overlay: ClientRect,
+        relative: ClientRect
+    ): number
+    {
 
-            case 'center':
-                self.style.left = ((relativeRect.left + relativeRect.width / 2) - selfRect.width / 2) + 'px'
-                break
-
-            case 'right':
-                self.style.left = relativeRect.left + 'px'
-                break
+        switch (position) {
+            case 'left':   return (relative.left + relative.width) - overlay.width
+            case 'center': return (relative.left + relative.width / 2) - overlay.width / 2
+            case 'right':  return relative.left
         }
     }
 }
 
-const Overlay = withContext<ContextProps>(() => {
-    return ({ state, actions, options, relativeRef }) => ({
-        open: state.open,
-        overlayClassName: options.classNames.overlay,
-        position: options.position,
-        relativeRef,
-        cancel: actions.cancel
-    })
-})(OverlayComponent)
+const Overlay = withContext<ContextProps>(({ state, actions, options, relativeRef }) => ({
+    open: state.open,
+    overlayClassName: options.classNames.overlay,
+    position: options.position,
+    relativeRef,
+    cancel: actions.cancel
+}))(OverlayComponent)
 
 export { Overlay }

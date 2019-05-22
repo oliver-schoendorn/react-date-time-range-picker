@@ -1,5 +1,7 @@
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 
+const HMR = 'HMR' in process.env
+
 module.exports = {
     module: {
         rules: [
@@ -22,7 +24,7 @@ module.exports = {
             {
                 test: /\.(scss|sass|css)$/,
                 use: [
-                    MiniCssExtractPlugin.loader,
+                    HMR ? 'style-loader' : MiniCssExtractPlugin.loader,
                     {
                         loader: 'css-loader',
                         options: { importLoaders: 3, sourceMap: true }

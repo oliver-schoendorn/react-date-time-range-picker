@@ -1,10 +1,13 @@
 $baseClassName: '.date-time-range-picker';
 $calendarMargin: 15px;
 
+// Width of the ranges column (only applies to desktops)
+$rangesWidth: 200px !default;
+
 // border radius of the overlay
 $borderRadius: 5px;
 
-$tableCellSize: 30px;
+$tableCellSize: 35px;
 
 $outerBorderColor: #ccc !default;
 $arrowButtonHoverBackgroundColor: #dddddd !default;
@@ -31,9 +34,12 @@ $rangeLabelTextColor: #000 !default;
 $rangeLabelBackgroundColor: inherit !default;
 
 // -> Hovered
-$rangeHLabelHoverTextColor: #000 !default;
+$rangeLabelHoverTextColor: #000 !default;
 $rangeLabelHoverBackgroundColor: $arrowButtonHoverBackgroundColor !default;
 
 // -> Selected
 $rangeLabelSelectedTextColor: #fff !default;
 $rangeLabelSelectedBackgroundColor: $selectionCapBackgroundColor !default;
+
+// Break point when the calendars will be displayed underneath each other
+$breakPoint: 600px !default;

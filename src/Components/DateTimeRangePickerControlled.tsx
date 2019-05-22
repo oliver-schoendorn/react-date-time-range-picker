@@ -1,6 +1,7 @@
 import React, { PureComponent, ReactNode, Fragment, RefObject, createRef, MouseEvent } from 'react'
 import { Calendar } from './Calendar/Calendar'
 import { Overlay } from './Overlay'
+import { Selection } from './Selection'
 import { Ranges } from './Range/Ranges'
 import { ContextCreator, contextMemoizer } from '../Context/contextMemoizer'
 import { Options } from '../Context/contextOptions'
@@ -69,6 +70,12 @@ class DateTimeRangePickerControlled extends PureComponent<Props>
             this.childRef
         )
 
+        const wrapperClassNames = classNames(
+            'date-time-range-picker',
+            context.options.classNames.wrapper,
+            { 'has-ranges': context.options.ranges && Object.keys(context.options.ranges).length > 0 }
+        )
+
         const cancelBtnClassNames = classNames(
             'btn btn-sm btn-link',
             context.options.classNames.cancelButton
@@ -82,7 +89,7 @@ class DateTimeRangePickerControlled extends PureComponent<Props>
         return (
             <Fragment>
                 <span ref={ this.childRef }>{ this.props.children }</span>
-                <div className={ classNames('date-time-range-picker', context.options.classNames.wrapper) }>
+                <div className={ wrapperClassNames }>
                     <DateTimeRangePickerContextProvider value={ context }>
                         <Overlay>
                             <div className={ classNames('-cols') }>
@@ -100,9 +107,7 @@ class DateTimeRangePickerControlled extends PureComponent<Props>
                                 }
                             </div>
                             <div className={ classNames('-footer') }>
-                                <div className='selection'>
-                                    { context.options.i18n.formatResult(context.state.start, context.state.end) }
-                                </div>
+                                <Selection />
 
                                 <div className='buttons'>
                                     <button className={ cancelBtnClassNames } onClick={ this.onCancel }>
