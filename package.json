@@ -1,6 +1,6 @@
 {
   "name": "@oliver-schoendorn/react-date-time-range-picker",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Date time range picker for React written in Typescript with internationalization in mind.",
   "keywords": [
     "react",
@@ -20,8 +20,8 @@
     "README.md"
   ],
   "main": "index.js",
-  "types": "dist/index.d.ts",
-  "module": "dist/es/index.js",
+  "types": "dist/esm/index.d.ts",
+  "module": "dist/esm/index.js",
   "dependencies": {
     "@babel/runtime": "^7.4.4"
   },
