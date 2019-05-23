@@ -5,16 +5,16 @@ import { Options } from '../Context/contextOptions'
 import { ContextActions, ContextState } from '../Context/Context'
 import * as DateTime from '../Helper/DateTime'
 
-export interface Controller<P extends BaseControllerProps = BaseControllerProps>
-{
-    (DateRangePicker: ComponentType<Props>): ComponentType<P>
-}
-
-export interface BaseControllerProps
+export interface BaseControllerProps extends Pick<Props, Exclude<keyof Props, 'state' | 'actions'>>
 {
     children: ReactNode
     initialState?: Partial<ContextState>
     options?: Options
+}
+
+export interface Controller<P extends BaseControllerProps = BaseControllerProps>
+{
+    (DateRangePicker: ComponentType<Props>): ComponentType<P>
 }
 
 function getInitialState({ month, ...state }: Partial<ContextState> = {}): ContextState
