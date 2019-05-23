@@ -5,7 +5,9 @@ import { Options } from '../Context/contextOptions'
 import { ContextActions, ContextState } from '../Context/Context'
 import * as DateTime from '../Helper/DateTime'
 
-export interface BaseControllerProps extends Pick<Props, Exclude<keyof Props, 'state' | 'actions'>>
+export type Omit<Object, Keys extends keyof Object> = Pick<Object, Exclude<keyof Object, Keys>>
+
+export interface BaseControllerProps extends Omit<Props, 'state' | 'actions'>
 {
     children: ReactNode
     initialState?: Partial<ContextState>
@@ -102,17 +104,21 @@ export abstract class BaseController<P extends BaseControllerProps = BaseControl
         }))
     }
 
+    protected getProps(): Props
+    {
+        const { initialState, ...props } = this.props
+        return {
+            state: this.state,
+            actions: this.actions,
+            ...props
+        }
+    }
+
     public render(): ReactNode
     {
         const DateTimeRangePicker = this.Component
-        return (
-            <DateTimeRangePicker
-                state={ this.state }
-                options={ this.props.options }
-                actions={ this.actions }
-            >
-                { this.props.children }
-            </DateTimeRangePicker>
-        )
+        const { children, ...props } = this.getProps()
+
+        return <DateTimeRangePicker { ...props }>{ children }</DateTimeRangePicker>
     }
 }

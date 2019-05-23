@@ -123,14 +123,6 @@ class DateTimeRangePickerControlled extends PureComponent<Props>
             </div>
         )
 
-        if (this.props.render && typeof this.props.render === 'function') {
-            return (
-                <Fragment>
-
-                </Fragment>
-            )
-        }
-
         return (
             <Fragment>
                 <span ref={ this.childRef }>{ this.props.children }</span>

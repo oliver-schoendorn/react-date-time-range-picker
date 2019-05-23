@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, ReactNode } from 'react';
 import ReactDOM from 'react-dom'
 import { withController } from '../src/Controller/WithController'
 import { withRangeController } from '../src/Controller/WithRangeController'
@@ -58,10 +58,15 @@ const onChange = (start: Date, end?: Date) =>
     console.warn('onChange', { start, end })
 }
 
+const render = (children: ReactNode) => {
+    console.log('Rendering picker with custom fn')
+    return <div className='foo'>{ children }</div>
+}
+
 const App: FunctionComponent = () => (
     <div style={ { textAlign: 'center' } }>
 
-        <RangePicker options={ options } onChange={ onChange }>
+        <RangePicker options={ options } onChange={ onChange } render={ render }>
             <button>RangePicker (w/o apply, w/o time)</button>
         </RangePicker>
 
