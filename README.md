@@ -14,8 +14,9 @@ This is heavily inspired by the
    2. [Uncontrolled Date (Time) Picker](#uncontrolled-date-time-picker)
    3. [Importing Stylesheets](#importing-stylesheets)
 3. [Advanced usage (controlled)](#advanced-usage-controlled)
-4. [Configuration](#configuration)
-5. [License](#license)
+4. [Using Portals](#using-portals)
+5. [Configuration](#configuration)
+6. [License](#license)
    
 
 ## Installation
@@ -133,6 +134,25 @@ extends the `DateTimeRangePickerController`. This is an abstract React Component
 State handlers which you could choose to overwrite or pass them directly to the
 `DateTimeRangePickerControlled` Component. The [`DateTimeRangePicker`](./src/Controller/WithRangeController.tsx)
 and the [`DateTimePicker`](./src/Controller/WithController.tsx) HOCs are two examples of how this can be done.
+
+## Using Portals
+
+In case you have to render the date (time) (range) picker in a portal to avoid clipping or because a parent element
+is using `position: relative` you can chose to render the picker components in a portal by passing a `render` prop:
+
+```typescript jsx
+import React, { FunctionComponent, ReactNode } from 'react'
+import DateTimeRangePicker from '@oliver-scheodorn/react-date-time-range-picker'
+import MyReactPortal from './MyReactPortal'
+
+const MyDatePicker: FunctionComponent = () => (
+    <DateTimeRangePicker render={ (children: ReactNode) => (
+        <MyReactPortal>{ children }</MyReactPortal>
+    ) }>
+        <button>Change Date</button>
+    </DateTimeRangePicker>
+)
+```
 
 ## Configuration
 

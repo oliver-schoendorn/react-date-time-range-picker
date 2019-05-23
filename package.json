@@ -1,6 +1,6 @@
 {
   "name": "@oliver-schoendorn/react-date-time-range-picker",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Date time range picker for React written in Typescript with internationalization in mind.",
   "keywords": [
     "react",

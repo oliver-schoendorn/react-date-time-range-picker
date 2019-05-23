@@ -18,6 +18,7 @@ export interface Props
     actions: ContextActions
     options?: Options
     children: ReactNode
+    render?(picker: ReactNode): ReactNode
 }
 
 class DateTimeRangePickerControlled extends PureComponent<Props>
@@ -86,42 +87,57 @@ class DateTimeRangePickerControlled extends PureComponent<Props>
             context.options.classNames.submitButton
         )
 
+        const pickerComponents: ReactNode = (
+            <div className={ wrapperClassNames }>
+                <DateTimeRangePickerContextProvider value={ context }>
+                    <Overlay>
+                        <div className={ classNames('-cols') }>
+                            <Ranges/>
+                            { context.options.showSingleCalendar
+                                ? (
+                                    <Calendar type='both'/>
+                                ) : (
+                                    <Fragment>
+                                        <Calendar type='left'/>
+                                        <div className={ classNames('-col-spacer') }/>
+                                        <Calendar type='right'/>
+                                    </Fragment>
+                                )
+                            }
+                        </div>
+                        <div className={ classNames('-footer') }>
+                            <Selection/>
+
+                            <div className='buttons'>
+                                <button className={ cancelBtnClassNames } onClick={ this.onCancel }>
+                                    { context.options.i18n.labels.cancel }
+                                </button>
+
+                                <button className={ submitBtnClassNames } onClick={ this.onApply }>
+                                    { context.options.i18n.labels.apply }
+                                </button>
+                            </div>
+                        </div>
+                    </Overlay>
+                </DateTimeRangePickerContextProvider>
+            </div>
+        )
+
+        if (this.props.render && typeof this.props.render === 'function') {
+            return (
+                <Fragment>
+
+                </Fragment>
+            )
+        }
+
         return (
             <Fragment>
                 <span ref={ this.childRef }>{ this.props.children }</span>
-                <div className={ wrapperClassNames }>
-                    <DateTimeRangePickerContextProvider value={ context }>
-                        <Overlay>
-                            <div className={ classNames('-cols') }>
-                                <Ranges/>
-                                { context.options.showSingleCalendar
-                                    ? (
-                                        <Calendar type='both'/>
-                                    ) : (
-                                        <Fragment>
-                                            <Calendar type='left'/>
-                                            <div className={ classNames('-col-spacer') }/>
-                                            <Calendar type='right'/>
-                                        </Fragment>
-                                    )
-                                }
-                            </div>
-                            <div className={ classNames('-footer') }>
-                                <Selection />
-
-                                <div className='buttons'>
-                                    <button className={ cancelBtnClassNames } onClick={ this.onCancel }>
-                                        { context.options.i18n.labels.cancel }
-                                    </button>
-
-                                    <button className={ submitBtnClassNames } onClick={ this.onApply }>
-                                        { context.options.i18n.labels.apply }
-                                    </button>
-                                </div>
-                            </div>
-                        </Overlay>
-                    </DateTimeRangePickerContextProvider>
-                </div>
+                { this.props.render && typeof this.props.render === 'function'
+                    ? this.props.render(pickerComponents)
+                    : pickerComponents
+                }
             </Fragment>
         )
     }
