@@ -69,7 +69,10 @@ const setMonth = (month: Date, setMonth: (date: Date) => void) =>
 {
     return function (event: MouseEvent<HTMLAnchorElement>) {
         event.preventDefault()
-        setMonth(month)
+
+        // Execute the setMonth slightly delayed to await the event bubbling (otherwise the click event
+        // target might be unmounted before the click event reaches the document.onClick listener)
+        setTimeout(() => setMonth(month), 0)
     }
 }
 
