@@ -1,5 +1,11 @@
 # React Date (Time) (Range) Picker
 
+[![NPM](https://badgen.net/npm/v/@oliver-schoendorn/react-date-time-range-picker)](https://www.npmjs.com/package/@oliver-schoendorn/react-date-time-range-picker)
+![License MIT](https://badgen.net/npm/license//@oliver-schoendorn/react-date-time-range-picker)
+[![Bundle size](https://badgen.net/bundlephobia/minzip/@oliver-schoendorn/react-date-time-range-picker)](https://bundlephobia.com/result?p=@oliver-schoendorn/react-date-time-range-picker)
+![Typescript](https://badgen.net/badge/icon/typescript?icon=typescript&label)
+
+
 This is a date time range picker for React written in Typescript with internationalization in mind.
 This package does not use any libraries for date time calculations, DOM manipulations or styling. The
 compressed size of the javascript bundle is approximately 31KB (9.1KB gzipped).

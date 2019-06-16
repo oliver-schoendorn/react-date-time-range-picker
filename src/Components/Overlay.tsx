@@ -91,15 +91,33 @@ class OverlayComponent extends PureComponent<ContextProps>
         console.timeEnd('OverlayPosition')
     }
 
+    private static getScrollOffset(): { top: number, left: number }
+    {
+        // This works for all browsers except IE versions 8 and before
+        if (window.pageXOffset != null) {
+            return { top: window.pageYOffset, left: window.pageXOffset }
+        }
+
+        // For IE (or any browser) in Standards mode
+        if (document.compatMode == "CSS1Compat") {
+            return { top: document.documentElement.scrollTop, left: document.documentElement.scrollLeft }
+        }
+
+        // For browsers in Quirks mode
+        return { top: document.body.scrollTop, left: document.body.scrollLeft }
+    }
+
     private static getTopPosition(
         position: ContextProps['position'][1],
         overlay: ClientRect,
         relative: ClientRect
     ): number
     {
+        const { top } = OverlayComponent.getScrollOffset()
+
         switch (position) {
-            case 'up':   return relative.top - overlay.height - 10
-            case 'down': return relative.top + relative.height + 10
+            case 'up':   return relative.top - overlay.height - 10 + top
+            case 'down': return relative.top + relative.height + 10 + top
         }
     }
 
@@ -109,11 +127,12 @@ class OverlayComponent extends PureComponent<ContextProps>
         relative: ClientRect
     ): number
     {
+        const { left } = OverlayComponent.getScrollOffset()
 
         switch (position) {
-            case 'left':   return (relative.left + relative.width) - overlay.width
-            case 'center': return (relative.left + relative.width / 2) - overlay.width / 2
-            case 'right':  return relative.left
+            case 'left':   return (relative.left + relative.width) - overlay.width + left
+            case 'center': return (relative.left + relative.width / 2) - (overlay.width / 2) + left
+            case 'right':  return relative.left + left
         }
     }
 }
