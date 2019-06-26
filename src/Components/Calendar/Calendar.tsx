@@ -32,7 +32,7 @@ const getPrevMonth = (type: 'left' | 'right' | 'both', month: Date, minDate: Dat
         ? DateTime.addMonths(month, -2)
         : DateTime.addMonths(month, -1))
 
-    if (refDate < DateTime.withTime(minDate, refDate)) {
+    if (minDate && refDate < DateTime.withTime(minDate, refDate)) {
         return null
     }
 
