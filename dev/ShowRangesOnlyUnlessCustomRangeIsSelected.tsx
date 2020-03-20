@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useState } from 'react'
+import React, { FunctionComponent, useState, useLayoutEffect } from 'react'
 import { DateTimeRangePickerControlled } from '../src'
 import { ContextState } from '../src/Context/Context'
 import { Options } from '../src/Context/contextOptions'
@@ -51,10 +51,26 @@ const isRangeSelected = function(start: Date, end: Date): boolean
 
 export const ShowRangesOnlyUnlessCustomRangeIsSelected: FunctionComponent = () =>
 {
+    // Keep track of whether a range is selected or not
     const [ rangeSelected, setRangeSelected ] = useState<boolean>(true)
+    const onUpdateSelection = (start: Date, end: Date) => {
+        setRangeSelected(isRangeSelected(start, end))
+    }
+
+    // When changing from `a predefined range is selected` to `a custom range is selected`
+    // the size of the overlay will change and its position will be all over the place.
+    // Therefore a resize-event is triggered AFTER the DOM Changes are completed
+    useLayoutEffect(() => {
+        if (rangeSelected === false) {
+            window.dispatchEvent(new Event('resize'))
+        }
+    }, [ rangeSelected ])
 
     const onChange = (start: Date, end: Date) => {
-        setRangeSelected(isRangeSelected(start, end))
+        console.log('Changed selection', {
+            start: start.toISOString(),
+            end: end.toISOString()
+        })
     }
 
     return (
@@ -63,7 +79,7 @@ export const ShowRangesOnlyUnlessCustomRangeIsSelected: FunctionComponent = () =
                 options={ options }
                 initialState={ initialState }
                 onChange={ onChange }
-                onUpdateSelection={ onChange }
+                onUpdateSelection={ onUpdateSelection }
             >
                 <button>ShowRangesOnlyUnlessCustomRangeIsSelected</button>
             </RangePicker>
