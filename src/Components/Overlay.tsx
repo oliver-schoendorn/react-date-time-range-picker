@@ -77,8 +77,6 @@ class OverlayComponent extends PureComponent<ContextProps>
             return
         }
 
-        console.time('OverlayPosition')
-
         const self = this.selfRef.current
         const selfRect = self.getBoundingClientRect()
 
@@ -87,8 +85,6 @@ class OverlayComponent extends PureComponent<ContextProps>
 
         self.style.top  = OverlayComponent.getTopPosition(this.props.position[1], selfRect, relativeRect) + 'px'
         self.style.left = OverlayComponent.getLeftPosition(this.props.position[0], selfRect, relativeRect) + 'px'
-
-        console.timeEnd('OverlayPosition')
     }
 
     private static getScrollOffset(): { top: number, left: number }

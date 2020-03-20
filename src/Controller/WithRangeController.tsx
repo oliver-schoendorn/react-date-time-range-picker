@@ -1,6 +1,5 @@
 import React from 'react'
 import { ContextState } from '../Context/Context'
-import { Options } from '../Context/contextOptions'
 import { dateEquals } from '../Helper/DateTime'
 import { BaseController, BaseControllerProps, Controller } from './Controller'
 import * as DateTime from '../Helper/DateTime'
@@ -48,7 +47,6 @@ const withRangeController: Controller<Props> = (DateRangePicker) =>
 
         private selectDate = (startDate: Date | null, endDate?: Date): void =>
         {
-            console.warn('WithRangeController::selectDate', { startDate, endDate })
             this.updateState(state => ({
                 start: { $set: startDate },
                 end: { $set: endDate || state.end }
@@ -83,7 +81,6 @@ const withRangeController: Controller<Props> = (DateRangePicker) =>
         private onUpdateDate = () =>
         {
             const { props: { options }, state } = this
-            console.log('should apply changes?', { start: state.start, end: state.end, autoApply: options.autoApply })
             if (state.start && state.end && options.autoApply && ! options.showTimePicker) {
                 this.actions.apply()
             }
