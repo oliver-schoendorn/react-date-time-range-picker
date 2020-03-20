@@ -1,4 +1,6 @@
-import { getWeekNumber } from '../Helper/DateTime'
+import { getWeekNumber, withTime } from '../Helper/DateTime'
+import { isDaySelectable } from '../Selectors/isDaySelectable'
+import { Context } from './Context'
 
 type TranslateFn = (date: Date) => string
 
@@ -124,6 +126,13 @@ export interface Options
     }
 
     /**
+     * Determines the start date that is being selected if the custom range was selected.
+     * Default: The system tries to find a date that is as close as possible to the current date.
+     *    NOTE: If no date can be determined, the click on the custom range will be ignored.
+     */
+    customRangeStartDate?: Date | ((context: Context) => Date)
+
+    /**
      * Internationalization options
      */
     i18n?: {
@@ -195,11 +204,34 @@ const defaultFormatDate = (date: Date): string =>
     '/' + (date.getUTCMonth() + 1).toString(10).padStart(2, '0') +
     '/' + (date.getUTCDate()).toString(10).padStart(2, '0')
 
+const makeDefaultCustomRangeStartDate = () =>
+{
+    const isSelectable = isDaySelectable()
+    return (ctx: Context): Date =>
+    {
+        const now = ctx.options.showTimePicker
+            ? new Date()
+            : withTime(new Date()) // Set time to 00:00:00 if time picker is disabled
+
+        if (isSelectable(ctx.options.constraints, ctx.state, now)) {
+            return now
+        }
+
+        const closestLimit = now > ctx.options.constraints.minDate
+            ? ctx.options.constraints.minDate
+            : ctx.options.constraints.maxDate
+
+        return isSelectable(ctx.options.constraints, ctx.state, closestLimit) ? closestLimit : null
+    }
+}
+
 export function makeContextOptions({ constraints, classNames, i18n, ...baseOptions }: Options = {},): Required<Options>
 {
     const formatDate: (date: Date) => string =
         (i18n ? i18n.formatDate : null)
         || defaultFormatDate
+
+    const customRangeStartDate = baseOptions.customRangeStartDate || makeDefaultCustomRangeStartDate()
 
     return Object.assign({
         constraints: Object.assign({
@@ -230,6 +262,7 @@ export function makeContextOptions({ constraints, classNames, i18n, ...baseOptio
         }, classNames || {}),
 
         ranges: null,
+        customRangeStartDate,
 
         i18n: Object.assign({
             labels: {
