@@ -1,12 +1,17 @@
 import React from 'react'
+import { ContextState } from '../Context/Context'
+import { dateEquals } from '../Helper/DateTime'
 import { BaseController, BaseControllerProps, Controller } from './Controller'
 import * as DateTime from '../Helper/DateTime'
+import { Spec } from 'immutability-helper';
 
 export interface Props extends BaseControllerProps
 {
-    onChange(start: Date, end: Date): any
+    onChange(start: Date | null, end: Date | null): any
+    onUpdateSelection?(startDate: Date | null, endDate: Date | null)
 }
 
+type S = ContextState
 const withRangeController: Controller<Props> = (DateRangePicker) =>
     class WithRangeController extends BaseController<Props>
     {
@@ -25,7 +30,22 @@ const withRangeController: Controller<Props> = (DateRangePicker) =>
             }
         }
 
-        private selectDate = (startDate: Date, endDate?: Date): void =>
+        protected updateState(updateSpec: (state: Readonly<S>) => Spec<S>): Promise<S> {
+            const prevState = {
+                start: this.state.start,
+                end:   this.state.end
+            }
+
+            return super.updateState(updateSpec).then(nextState => {
+                if (! dateEquals(nextState.start, prevState.start) || ! dateEquals(nextState.end, prevState.end)) {
+                    this.props.onUpdateSelection(nextState.start, nextState.end)
+                }
+
+                return nextState
+            })
+        }
+
+        private selectDate = (startDate: Date | null, endDate?: Date): void =>
         {
             this.updateState(state => ({
                 start: { $set: startDate },

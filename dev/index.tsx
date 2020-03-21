@@ -6,7 +6,9 @@ import * as DateTime from '../src/Helper/DateTime'
 import { Options } from '../src/Context/contextOptions'
 import { DateTimeRangePickerControlled } from '../src'
 import '../src/Styles/DateTimeRangePicker.scss'
+import { ShowRangesOnlyUnlessCustomRangeIsSelected } from './ShowRangesOnlyUnlessCustomRangeIsSelected'
 
+const now = new Date()
 const options: Options = {
     i18n: {
         firstDayOfWeek: 0,
@@ -16,10 +18,16 @@ const options: Options = {
     constraints: {
         minSpan: 1000 * 60 * 60 * 24 * 3,
         maxSpan: 1000 * 60 * 60 * 24 * 15,
-        maxDate: new Date('2019-06-01'),
-        minDate: new Date('2019-01-01')
+        maxDate: DateTime.fromUTC(now.getUTCFullYear(), now.getUTCMonth(), DateTime.getLastDayOfMonth(now).getUTCDay()),
+        minDate: DateTime.addMonths(DateTime.fromUTC(now.getUTCFullYear(), now.getUTCMonth(), 1), -3)
     },
-    position: [ 'center', 'down' ]
+    position: [ 'center', 'down' ],
+    ranges: {
+        'Last week - ridiculous long label': {
+            from: DateTime.withTime(DateTime.addWeeks(new Date(), -1)),
+            until: DateTime.withTime(now)
+        }
+    }
 }
 
 const options2: Options = {
@@ -32,17 +40,11 @@ const options2: Options = {
     constraints: {
         minSpan: 1000 * 60 * 60 * 24 * 3,
         maxSpan: 1000 * 60 * 60 * 24 * 15,
-        maxDate: new Date(),
+        maxDate: DateTime.addDays(now, 1),
         minDate: new Date('2018-12-31'),
         timeInterval: 1
     },
-    position: [ 'center', 'down' ],
-    ranges: {
-        'Last week - ridiculous long label': {
-            from: DateTime.withTime(DateTime.addWeeks(new Date(), -1)),
-            until: DateTime.withTime(new Date())
-        }
-    }
+    position: [ 'center', 'down' ]
 }
 
 const options3 = Object.assign({}, options2, { showTimePicker: false })
@@ -59,7 +61,7 @@ const onChange = (start: Date, end?: Date) =>
 }
 
 const render = (children: ReactNode) => {
-    console.log('Rendering picker with custom fn')
+    console.log('Rendering picker with custom fn', { children })
     return <div className='foo'>{ children }</div>
 }
 
@@ -87,6 +89,10 @@ const App: FunctionComponent = () => (
         <DatePicker options={ withAutoApply(options3) } onChange={ onChange }>
             <button>DatePicker (with auto apply)</button>
         </DatePicker>
+
+        <hr/>
+
+        <ShowRangesOnlyUnlessCustomRangeIsSelected/>
     </div>
 )
 

@@ -3,10 +3,10 @@ import { BaseController, BaseControllerProps, Controller } from './Controller'
 
 export interface Props extends BaseControllerProps
 {
-    onChange(date: Date): any
+    onChange(date: Date | null): any
 }
 
-const withController: Controller<Props> = (DateRangePicker) => class WithRangeController extends BaseController<Props>
+const withController: Controller<Props> = (DateRangePicker) => class WithController extends BaseController<Props>
 {
     constructor(props)
     {

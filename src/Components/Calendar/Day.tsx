@@ -69,7 +69,7 @@ const Day = withContext<ContextProps, Props>(
         const isSelectable = isDaySelectable()
 
         return (context, { day, month }) => {
-            const selectable = isSelectable(context, day, month)
+            const selectable = isSelectable(context.options.constraints, context.state, day)
             const disabled   = isDisabled(day, month)
 
             return {
