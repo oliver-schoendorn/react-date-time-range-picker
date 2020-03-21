@@ -1,9 +1,9 @@
 import React, { FunctionComponent, useState, useLayoutEffect } from 'react'
-import { DateTimeRangePickerControlled } from '../src'
-import { ContextState } from '../src/Context/Context'
-import { Options } from '../src/Context/contextOptions'
-import { withRangeController } from '../src/Controller/WithRangeController'
-import * as DateTime from '../src/Helper/DateTime'
+import { DateTimeRangePickerControlled } from '../../src'
+import { ContextState } from '../../src/Context/Context'
+import { Options } from '../../src/Context/contextOptions'
+import { withRangeController } from '../../src/Controller/WithRangeController'
+import * as DateTime from '../../src/Helper/DateTime'
 import './ShowRangesOnlyUnlessCustomRangeIsSelected.scss'
 
 const now = DateTime.withTime(new Date())

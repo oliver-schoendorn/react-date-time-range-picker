@@ -22,7 +22,8 @@ This is heavily inspired by the
 3. [Advanced usage (controlled)](#advanced-usage-controlled)
 4. [Using Portals](#using-portals)
 5. [Configuration](#configuration)
-6. [License](#license)
+6. [Running the examples](#examples)
+7. [License](#license)
    
 
 ## Installation
@@ -397,6 +398,13 @@ export function goodUsage(props: Props)
     )
 }
 ```
+
+## Running the examples
+
+All you have to do in order to run the examples is:
+1. Checkout the repo
+2. Run the `npm start` command from the repo root
+3. And finally open [http://localhost:8090](http://localhost:8090) in a browser
 
 ## License
 
