@@ -1,6 +1,6 @@
 import React, { PureComponent, ReactNode, Fragment, RefObject, createRef, MouseEvent } from 'react'
 import { Calendar } from './Calendar/Calendar'
-import { Overlay } from './Overlay'
+import { Overlay } from './Overlay/Overlay'
 import { Selection } from './Selection'
 import { Ranges } from './Range/Ranges'
 import { ContextCreator, contextMemoizer } from '../Context/contextMemoizer'
