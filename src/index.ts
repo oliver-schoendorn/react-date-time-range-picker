@@ -1,3 +1,4 @@
+import { ComponentType } from 'react'
 import * as DateTimeHelper from './Helper/DateTime'
 import { DateTimeRangePickerControlled } from './Components/DateTimeRangePickerControlled'
 import { withRangeController, Props as DateTimeRangePickerProps } from './Controller/WithRangeController'
@@ -6,8 +7,8 @@ import './Styles/DateTimeRangePicker.scss'
 import { Options } from './Context/contextOptions'
 import { BaseController, BaseControllerProps } from './Controller/Controller'
 
-const DateTimePicker = withController(DateTimeRangePickerControlled)
-const DateTimeRangePicker = withRangeController(DateTimeRangePickerControlled)
+const DateTimePicker: ComponentType<DateTimePickerProps> = withController(DateTimeRangePickerControlled)
+const DateTimeRangePicker: ComponentType<DateTimeRangePickerProps> = withRangeController(DateTimeRangePickerControlled)
 
 export {
     DateTimePicker,
