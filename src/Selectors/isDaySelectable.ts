@@ -1,10 +1,10 @@
 import { Context } from '../Context/Context'
+import { Options } from '../Context/contextOptions'
 import { dateBetween, dateEquals } from '../Helper/DateTime'
 import { memoizeFunction } from '../Helper/Memoize/Memoize'
 
 function isDaySelectableFn(
     day: Date,
-    month: Date,
     constraints: Context['options']['constraints'],
     selectedStartDate?: Date,
     selectedEndDate?: Date
@@ -56,14 +56,17 @@ export const isDaySelectable = () =>
 {
     const isSelectable = memoizeFunction(isDaySelectableFn)
 
-    return (context: Context, day: Date, month: Date): boolean =>
+    return (
+        constraints: Required<Options>['constraints'],
+        state: { start: Date, end: Date },
+        date: Date
+    ): boolean =>
     {
         return isSelectable(
-            day,
-            month,
-            context.options.constraints,
-            context.state.start,
-            context.state.end
+            date,
+            constraints,
+            state.start,
+            state.end
         )
     }
 }

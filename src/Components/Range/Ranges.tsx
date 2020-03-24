@@ -1,4 +1,5 @@
 import React, { FunctionComponent, MouseEvent } from 'react'
+import { Context } from '../../Context/Context'
 import { withContext } from '../../Context/withContext'
 import { classNames } from '../../Helper/classNames'
 import { getSelectedRangeLabelSelector } from '../../Selectors/getSelectedRangeLabel'
@@ -6,20 +7,30 @@ import { Range } from './Range'
 
 interface ContextProps
 {
-    ranges: {
-        [label: string]: {
-            from: Date
-            until: Date
-        }
-    }
-    customRangeLabel: string
     selectedRangeLabel: string | 'custom' | null
+    context: Context
 }
 
-const onClickCustom = (event: MouseEvent<HTMLAnchorElement>) => event.preventDefault()
-
-const RangesComponent: FunctionComponent<ContextProps> = ({ ranges, customRangeLabel, selectedRangeLabel }) =>
+const RangesComponent: FunctionComponent<ContextProps> = ({ selectedRangeLabel, context }) =>
 {
+    const {
+        options: { ranges, i18n: { labels: { customRange } } },
+        actions: { clickDate }
+    } = context
+
+    const onClickCustom = (event: MouseEvent<HTMLAnchorElement>) =>
+    {
+        event.preventDefault()
+
+        const closestSelectableDate = typeof context.options.customRangeStartDate === 'function'
+            ? context.options.customRangeStartDate(context)
+            : context.options.customRangeStartDate
+
+        if (closestSelectableDate) {
+            clickDate(closestSelectableDate)
+        }
+    }
+
     if (! ranges) {
         return null
     }
@@ -44,7 +55,7 @@ const RangesComponent: FunctionComponent<ContextProps> = ({ ranges, customRangeL
                 onClick={ onClickCustom }
                 className={ classNames('range', { selected: selectedRangeLabel === 'custom' }) }
             >
-                { customRangeLabel }
+                { customRange }
             </a>
         </div>
     )
@@ -53,9 +64,8 @@ const RangesComponent: FunctionComponent<ContextProps> = ({ ranges, customRangeL
 const Ranges = withContext<ContextProps>(() => {
     const getSelectedRangeLabel = getSelectedRangeLabelSelector()
     return (context) => ({
-        ranges: context.options.ranges,
-        customRangeLabel: context.options.i18n.labels.customRange,
-        selectedRangeLabel: getSelectedRangeLabel(context)
+        context,
+        selectedRangeLabel: getSelectedRangeLabel(context),
     })
 })(RangesComponent)
 

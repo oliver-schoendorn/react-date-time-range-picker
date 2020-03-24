@@ -8,8 +8,12 @@ const getSelectedRangeLabel = memoizeFunction(function getSelectedRangeLabel(
     ranges: Context['options']['ranges']
 ): string | 'custom' | null
 {
-    if (! isDate(startDate, endDate) || ! ranges) {
+    if (! ranges) {
         return null
+    }
+
+    if (! isDate(startDate, endDate)) {
+        return 'custom'
     }
 
     const start = min(startDate, endDate)
