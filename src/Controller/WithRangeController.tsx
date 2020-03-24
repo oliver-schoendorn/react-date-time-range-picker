@@ -37,7 +37,12 @@ const withRangeController: Controller<Props> = (DateRangePicker) =>
             }
 
             return super.updateState(updateSpec).then(nextState => {
-                if (! dateEquals(nextState.start, prevState.start) || ! dateEquals(nextState.end, prevState.end)) {
+                if (
+                    typeof this.props.onUpdateSelection === 'function' && (
+                        ! dateEquals(nextState.start, prevState.start) ||
+                        ! dateEquals(nextState.end, prevState.end)
+                    )
+                ) {
                     this.props.onUpdateSelection(nextState.start, nextState.end)
                 }
 
