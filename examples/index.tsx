@@ -6,6 +6,7 @@ import * as DateTime from '../src/Helper/DateTime'
 import { Options } from '../src/Context/contextOptions'
 import { DateTimeRangePickerControlled } from '../src'
 import '../src/Styles/DateTimeRangePicker.scss'
+import { DynamicPopupPositioning } from './DynamicPopupPositioning/DyanmicPopupPositioning'
 import { ShowRangesOnlyUnlessCustomRangeIsSelected } from './ShowRangesOnlyUnlessCustomRangeIsSelected/ShowRangesOnlyUnlessCustomRangeIsSelected'
 
 const now = new Date()
@@ -92,7 +93,8 @@ const App: FunctionComponent = () => (
 
         <hr/>
 
-        <ShowRangesOnlyUnlessCustomRangeIsSelected/>
+        <ShowRangesOnlyUnlessCustomRangeIsSelected />
+        <DynamicPopupPositioning />
     </div>
 )
 

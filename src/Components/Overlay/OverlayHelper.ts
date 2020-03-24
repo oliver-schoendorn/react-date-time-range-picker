@@ -50,5 +50,5 @@ const getOverlayPositionTop = function (
 
 const between = function (number: number, min: number, max: number): number
 {
-    return Math.max(Math.min(number, min), max)
+    return Math.min(Math.max(number, min), max)
 }

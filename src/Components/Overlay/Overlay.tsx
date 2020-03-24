@@ -66,14 +66,14 @@ class OverlayComponent extends PureComponent<ContextProps>
         const className = classNames(
             '-overlay',
             overlayClassName,
-            { open: open }
+            { open: open },
+            typeof position === 'function'
+                ? 'center down'
+                : position.join(' ')
         )
 
         return (
-            <div
-                className={ className + (typeof position !== 'function' ? (' ' + position.join(' ')) : '') }
-                ref={ this.selfRef }
-            >
+            <div className={ className } ref={ this.selfRef }>
                 { open && children }
             </div>
         )
