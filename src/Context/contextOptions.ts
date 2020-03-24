@@ -1,8 +1,15 @@
 import { getWeekNumber, withTime } from '../Helper/DateTime'
 import { isDaySelectable } from '../Selectors/isDaySelectable'
 import { Context } from './Context'
+import { RefObject } from 'react';
 
-type TranslateFn = (date: Date) => string
+export type TranslateFn = (date: Date) => string
+
+/**
+ * The overlay ref references the overlay which is usually absolute positioned
+ * The relative ref will reference the wrapped children of the date time picker (a button or similar)
+ */
+export type PositioningCallback = (overlayRef: RefObject<HTMLDivElement>, relativeRef: RefObject<HTMLElement>) => void
 
 export interface Options
 {
@@ -78,7 +85,7 @@ export interface Options
     /**
      * The position where the overlay will be placed
      */
-    position?: [ 'left' | 'center' | 'right', 'up' | 'down' ]
+    position?: [ 'left' | 'center' | 'right', 'up' | 'down' ] | PositioningCallback
 
     /**
      * Customize class names
