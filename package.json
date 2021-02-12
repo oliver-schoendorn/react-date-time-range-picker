@@ -1,6 +1,6 @@
 {
   "name": "@oliver-schoendorn/react-date-time-range-picker",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Date time range picker for React written in Typescript with internationalization in mind.",
   "keywords": [
     "react",
@@ -77,7 +77,7 @@
     "webpack-dev-server": "^3.11.2"
   },
   "peerDependencies": {
-    "react": "^17.0.0"
+    "react": "^16.13.1 || ^17.0.0"
   },
   "scripts": {
     "test": "jest --coverage",
