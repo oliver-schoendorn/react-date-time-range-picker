@@ -1,6 +1,7 @@
 import React, { Component, ReactNode, ComponentType } from 'react'
 import deepEqual from 'deep-equal'
 import { Context, DateTimeRangePickerContextConsumer } from './Context'
+import shallowEqual from 'shallowequal'
 
 type Selector<P, S extends object> = (context: Context, props: P) => S
 type SelectorFactory<P, S extends object> = () => Selector<P, S>
@@ -44,19 +45,26 @@ class DateTimeRangePickerContextSelector<P, S extends object> extends
             : props.selector as Selector<P, S>
     }
 
-    public shouldComponentUpdate(
-        nextProps: Readonly<DateTimeRangePickerContextSelectorProps<P, S>>,
-        nextState: Readonly<{}>
-    ): boolean
+    public shouldComponentUpdate(nextProps: Readonly<DateTimeRangePickerContextSelectorProps<P, S>>): boolean
     {
-        if (! deepEqual(this.props.props, nextProps.props)) {
+        // This used to perform a deep equal check, but this caused some issues when switching locales (infinite loop)
+        // This is most likely caused by comparing react nodes. Since I do not see a simple way to work around this,
+        // only a shallow equal is performed. The performance implications should not be noticeable.
+        if (! shallowEqual(this.props.props, nextProps.props)) {
             return true
         }
 
         const currSelectedContext = this.selector(this.props.context, this.props.props)
         const nextSelectedContext = this.selector(nextProps.context, nextProps.props)
 
-        if (! deepEqual(currSelectedContext, nextSelectedContext)) {
+        // Shotgun fix: Just in case that infinite loop issue occurs here as well, we will catch the error and tell
+        // the component to update.
+        try {
+            if (! deepEqual(currSelectedContext, nextSelectedContext)) {
+                return true
+            }
+        }
+        catch {
             return true
         }
 
