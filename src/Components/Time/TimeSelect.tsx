@@ -1,4 +1,4 @@
-import React, { FunctionComponent, ReactNode, ChangeEvent, PureComponent } from 'react'
+import React, { ReactNode, ChangeEvent, PureComponent } from 'react'
 import { withContext } from '../../Context/withContext'
 import { classNames } from '../../Helper/classNames'
 import { withTime } from '../../Helper/DateTime'
