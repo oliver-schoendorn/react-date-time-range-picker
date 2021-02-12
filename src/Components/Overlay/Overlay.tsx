@@ -28,7 +28,7 @@ class OverlayComponent extends PureComponent<ContextProps>
         this.selfRef = createRef()
     }
 
-    public componentWillMount(): void
+    public componentDidMount(): void
     {
         document.addEventListener('click', this.onClickDocument)
         window.addEventListener('resize', this.updatePosition)
