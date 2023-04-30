@@ -24,8 +24,8 @@ export const updateOverlayPosition = function (
 const getOverlayPositionLeft = function (
     position: Options['position'],
     { left: leftScrollOffset }: ScrollOffset,
-    overlayRect: ClientRect,
-    parentRect: ClientRect
+    overlayRect: DOMRect,
+    parentRect: DOMRect
 ): number
 {
     switch (position[0]) {
@@ -38,8 +38,8 @@ const getOverlayPositionLeft = function (
 const getOverlayPositionTop = function (
     position: Options['position'],
     { top: topScrollOffset }: ScrollOffset,
-    overlayRect: ClientRect,
-    parentRect: ClientRect
+    overlayRect: DOMRect,
+    parentRect: DOMRect
 ): number
 {
     switch (position[1]) {

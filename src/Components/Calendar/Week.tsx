@@ -1,4 +1,4 @@
-import React, { FunctionComponent, ReactNodeArray } from 'react'
+import React, { FunctionComponent, ReactNode } from 'react'
 import { withContext } from '../../Context/withContext'
 import { classNames } from '../../Helper/classNames'
 import * as DateTime from '../../Helper/DateTime'
@@ -18,7 +18,7 @@ interface ContextProps
 
 const WeekComponent: FunctionComponent<Props & ContextProps> = ({ firstDay, month, showWeekNumber, getWeekNumber }) =>
 {
-    const weekDayComponents: ReactNodeArray = []
+    const weekDayComponents: ReactNode[] = []
     for (let i = 0; i < 7; ++i) {
         const currentDay = DateTime.addDays(firstDay, i)
         weekDayComponents.push(

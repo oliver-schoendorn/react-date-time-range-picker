@@ -19,12 +19,9 @@ module.exports = Object.assign(BaseConfig, {
         port: '8090',
         hot: true,
         historyApiFallback: true,
-        contentBase: path.join(__dirname, '/examples'),
-        stats: {
-            warnings: false
-        }
+        static: path.join(__dirname, '/examples'),
     },
-    entry: [ 'react-hot-loader/patch', path.join(__dirname, '/examples/index.tsx') ],
+    entry: path.join(__dirname, '/examples/index.tsx'),
     devtool: 'eval-source-map',
     mode: 'development',
     plugins: [

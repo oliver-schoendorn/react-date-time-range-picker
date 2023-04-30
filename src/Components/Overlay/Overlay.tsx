@@ -1,4 +1,4 @@
-import React, { RefObject, PureComponent, ReactNode, createRef } from 'react'
+import React, { RefObject, PureComponent, PropsWithChildren, ReactNode, createRef } from 'react'
 import { Options } from '../../Context/contextOptions'
 import { withContext } from '../../Context/withContext'
 import { classNames } from '../../Helper/classNames'
@@ -18,7 +18,7 @@ function hasRef<T extends HTMLElement>(ref: RefObject<T> | undefined): ref is Re
     return ref && ref.current instanceof HTMLElement
 }
 
-class OverlayComponent extends PureComponent<ContextProps>
+class OverlayComponent extends PureComponent<PropsWithChildren<ContextProps>>
 {
     private readonly selfRef: RefObject<HTMLDivElement>
 
@@ -96,7 +96,7 @@ class OverlayComponent extends PureComponent<ContextProps>
         }
 }
 
-const Overlay = withContext<ContextProps>(({ state, actions, options, relativeRef }) => ({
+const Overlay: React.ComponentType<PropsWithChildren> = withContext<ContextProps>(({ state, actions, options, relativeRef }) => ({
     open: state.open,
     overlayClassName: options.classNames.overlay,
     position: options.position,

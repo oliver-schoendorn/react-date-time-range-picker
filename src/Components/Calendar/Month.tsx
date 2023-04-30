@@ -1,4 +1,4 @@
-import React, { FunctionComponent, ReactNodeArray } from 'react'
+import React, { FunctionComponent, ReactNode } from 'react'
 import { withContext } from '../../Context/withContext'
 import { getNameOfWeekDay } from '../../Selectors/getNameOfWeekDay'
 import { classNames } from '../../Helper/classNames'
@@ -23,7 +23,7 @@ const CalendarComponent: FunctionComponent<Props & ContextProps> =
     const firstDayOfMonth = DateTime.getFirstDayOfMonth(month)
     const firstDay = DateTime.getFirstDayOfWeek(firstDayOfMonth, firstDayOfWeek)
 
-    const weekDays: ReactNodeArray = []
+    const weekDays: ReactNode[] = []
     if (showWeekNumber) {
         weekDays.push(<th key='week-number' className={ classNames('-week-day-label') }>W</th>)
     }
@@ -35,7 +35,7 @@ const CalendarComponent: FunctionComponent<Props & ContextProps> =
         )
     }
 
-    const weeks: ReactNodeArray = []
+    const weeks: ReactNode[] = []
     for (let i = 0; i < 6; ++i) {
         const week = DateTime.addWeeks(firstDay, i)
         weeks.push(
