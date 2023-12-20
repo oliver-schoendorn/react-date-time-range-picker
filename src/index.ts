@@ -12,12 +12,15 @@ const DateTimeRangePicker: ComponentType<DateTimeRangePickerProps> = withRangeCo
 
 export {
     DateTimePicker,
-    DateTimePickerProps,
     DateTimeRangePicker,
-    DateTimeRangePickerProps,
     DateTimeRangePickerControlled,
     BaseController as DateTimeRangePickerController,
-    BaseControllerProps as DateTimeRangePickerControllerProps,
     DateTimeHelper,
-    Options as DateTimePickerOptions
+}
+
+export type {
+    DateTimePickerProps,
+    DateTimeRangePickerProps,
+    BaseControllerProps as DateTimeRangePickerControllerProps,
+    Options as DateTimePickerOptions,
 }
