@@ -14,7 +14,7 @@
     "jsx": "react",
     "allowSyntheticDefaultImports": true,
     "isolatedModules": false,
-    "importHelpers": true,
+    "importHelpers": false,
     "esModuleInterop": true
   },
   "include": [ "./src/**/*" ],
